@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SongScreenerDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="SongScreenerDBModelStoreContainer">
+          <EntitySet Name="Artist" EntityType="SongScreenerDBModel.Store.Artist" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Genre" EntityType="SongScreenerDBModel.Store.Genre" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Intonation" EntityType="SongScreenerDBModel.Store.Intonation" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Language" EntityType="SongScreenerDBModel.Store.Language" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Rhythm" EntityType="SongScreenerDBModel.Store.Rhythm" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Song" EntityType="SongScreenerDBModel.Store.Song" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Tone" EntityType="SongScreenerDBModel.Store.Tone" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="fk_Song_Artist_1" Association="SongScreenerDBModel.Store.fk_Song_Artist_1">
+            <End Role="Artist" EntitySet="Artist" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Song_Genre_1" Association="SongScreenerDBModel.Store.fk_Song_Genre_1">
+            <End Role="Genre" EntitySet="Genre" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Song_Intonation_1" Association="SongScreenerDBModel.Store.fk_Song_Intonation_1">
+            <End Role="Intonation" EntitySet="Intonation" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Song_Language_1" Association="SongScreenerDBModel.Store.fk_Song_Language_1">
+            <End Role="Language" EntitySet="Language" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Song_Rhythm_1" Association="SongScreenerDBModel.Store.fk_Song_Rhythm_1">
+            <End Role="Rhythm" EntitySet="Rhythm" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Song_Tone_1" Association="SongScreenerDBModel.Store.fk_Song_Tone_1">
+            <End Role="Tone" EntitySet="Tone" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Artist">
+          <Key>
+            <PropertyRef Name="ArtistID" />
+          </Key>
+          <Property Name="ArtistID" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ArtistName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="ArtistGender" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="GenreID" />
+          </Key>
+          <Property Name="GenreID" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="GenreName" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Intonation">
+          <Key>
+            <PropertyRef Name="IntonationID" />
+          </Key>
+          <Property Name="IntonationID" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="IntonationName" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Language">
+          <Key>
+            <PropertyRef Name="LanguageID" />
+          </Key>
+          <Property Name="LanguageID" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="LanguageName" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Rhythm">
+          <Key>
+            <PropertyRef Name="RhythmID" />
+          </Key>
+          <Property Name="RhythmID" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="RhythmName" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Song">
+          <Key>
+            <PropertyRef Name="SongID" />
+          </Key>
+          <Property Name="SongID" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="SongName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="SongArtistID" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="SongLanguageID" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="SongGenreID" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="SongIntonationID" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="SongToneID" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="SongRhythmID" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="SongPath" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Tone">
+          <Key>
+            <PropertyRef Name="ToneID" />
+          </Key>
+          <Property Name="ToneID" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ToneName" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <Association Name="fk_Song_Artist_1">
+          <End Role="Artist" Type="SongScreenerDBModel.Store.Artist" Multiplicity="1" />
+          <End Role="Song" Type="SongScreenerDBModel.Store.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artist">
+              <PropertyRef Name="ArtistID" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="SongArtistID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Song_Genre_1">
+          <End Role="Genre" Type="SongScreenerDBModel.Store.Genre" Multiplicity="1" />
+          <End Role="Song" Type="SongScreenerDBModel.Store.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="GenreID" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="SongGenreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Song_Intonation_1">
+          <End Role="Intonation" Type="SongScreenerDBModel.Store.Intonation" Multiplicity="1" />
+          <End Role="Song" Type="SongScreenerDBModel.Store.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Intonation">
+              <PropertyRef Name="IntonationID" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="SongIntonationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Song_Language_1">
+          <End Role="Language" Type="SongScreenerDBModel.Store.Language" Multiplicity="1" />
+          <End Role="Song" Type="SongScreenerDBModel.Store.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="LanguageID" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="SongLanguageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Song_Rhythm_1">
+          <End Role="Rhythm" Type="SongScreenerDBModel.Store.Rhythm" Multiplicity="1" />
+          <End Role="Song" Type="SongScreenerDBModel.Store.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rhythm">
+              <PropertyRef Name="RhythmID" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="SongRhythmID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Song_Tone_1">
+          <End Role="Tone" Type="SongScreenerDBModel.Store.Tone" Multiplicity="1" />
+          <End Role="Song" Type="SongScreenerDBModel.Store.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tone">
+              <PropertyRef Name="ToneID" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="SongToneID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SongScreenerDBModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="SongScreenerDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Artist" EntityType="SongScreenerDBModel.Artist" />
+          <EntitySet Name="Genre" EntityType="SongScreenerDBModel.Genre" />
+          <EntitySet Name="Intonation" EntityType="SongScreenerDBModel.Intonation" />
+          <EntitySet Name="Language" EntityType="SongScreenerDBModel.Language" />
+          <EntitySet Name="Rhythm" EntityType="SongScreenerDBModel.Rhythm" />
+          <EntitySet Name="Song" EntityType="SongScreenerDBModel.Song" />
+          <EntitySet Name="Tone" EntityType="SongScreenerDBModel.Tone" />
+          <AssociationSet Name="fk_Song_Artist_1" Association="SongScreenerDBModel.fk_Song_Artist_1">
+            <End Role="Artist" EntitySet="Artist" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Song_Genre_1" Association="SongScreenerDBModel.fk_Song_Genre_1">
+            <End Role="Genre" EntitySet="Genre" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Song_Intonation_1" Association="SongScreenerDBModel.fk_Song_Intonation_1">
+            <End Role="Intonation" EntitySet="Intonation" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Song_Language_1" Association="SongScreenerDBModel.fk_Song_Language_1">
+            <End Role="Language" EntitySet="Language" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Song_Rhythm_1" Association="SongScreenerDBModel.fk_Song_Rhythm_1">
+            <End Role="Rhythm" EntitySet="Rhythm" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Song_Tone_1" Association="SongScreenerDBModel.fk_Song_Tone_1">
+            <End Role="Tone" EntitySet="Tone" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Artist">
+          <Key>
+            <PropertyRef Name="ArtistID" />
+          </Key>
+          <Property Name="ArtistID" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="ArtistName" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="ArtistGender" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Song" Relationship="SongScreenerDBModel.fk_Song_Artist_1" FromRole="Artist" ToRole="Song" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="GenreID" />
+          </Key>
+          <Property Name="GenreID" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="GenreName" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Song" Relationship="SongScreenerDBModel.fk_Song_Genre_1" FromRole="Genre" ToRole="Song" />
+        </EntityType>
+        <EntityType Name="Intonation">
+          <Key>
+            <PropertyRef Name="IntonationID" />
+          </Key>
+          <Property Name="IntonationID" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="IntonationName" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Song" Relationship="SongScreenerDBModel.fk_Song_Intonation_1" FromRole="Intonation" ToRole="Song" />
+        </EntityType>
+        <EntityType Name="Language">
+          <Key>
+            <PropertyRef Name="LanguageID" />
+          </Key>
+          <Property Name="LanguageID" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="LanguageName" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Song" Relationship="SongScreenerDBModel.fk_Song_Language_1" FromRole="Language" ToRole="Song" />
+        </EntityType>
+        <EntityType Name="Rhythm">
+          <Key>
+            <PropertyRef Name="RhythmID" />
+          </Key>
+          <Property Name="RhythmID" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="RhythmName" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Song" Relationship="SongScreenerDBModel.fk_Song_Rhythm_1" FromRole="Rhythm" ToRole="Song" />
+        </EntityType>
+        <EntityType Name="Song">
+          <Key>
+            <PropertyRef Name="SongID" />
+          </Key>
+          <Property Name="SongID" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="SongName" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="SongArtistID" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="SongLanguageID" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="SongGenreID" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="SongIntonationID" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="SongToneID" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="SongRhythmID" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="SongPath" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Artist" Relationship="SongScreenerDBModel.fk_Song_Artist_1" FromRole="Song" ToRole="Artist" />
+          <NavigationProperty Name="Genre" Relationship="SongScreenerDBModel.fk_Song_Genre_1" FromRole="Song" ToRole="Genre" />
+          <NavigationProperty Name="Intonation" Relationship="SongScreenerDBModel.fk_Song_Intonation_1" FromRole="Song" ToRole="Intonation" />
+          <NavigationProperty Name="Language" Relationship="SongScreenerDBModel.fk_Song_Language_1" FromRole="Song" ToRole="Language" />
+          <NavigationProperty Name="Rhythm" Relationship="SongScreenerDBModel.fk_Song_Rhythm_1" FromRole="Song" ToRole="Rhythm" />
+          <NavigationProperty Name="Tone" Relationship="SongScreenerDBModel.fk_Song_Tone_1" FromRole="Song" ToRole="Tone" />
+        </EntityType>
+        <EntityType Name="Tone">
+          <Key>
+            <PropertyRef Name="ToneID" />
+          </Key>
+          <Property Name="ToneID" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="ToneName" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Song" Relationship="SongScreenerDBModel.fk_Song_Tone_1" FromRole="Tone" ToRole="Song" />
+        </EntityType>
+        <Association Name="fk_Song_Artist_1">
+          <End Role="Artist" Type="SongScreenerDBModel.Artist" Multiplicity="1" />
+          <End Role="Song" Type="SongScreenerDBModel.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artist">
+              <PropertyRef Name="ArtistID" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="SongArtistID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Song_Genre_1">
+          <End Role="Genre" Type="SongScreenerDBModel.Genre" Multiplicity="1" />
+          <End Role="Song" Type="SongScreenerDBModel.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="GenreID" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="SongGenreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Song_Intonation_1">
+          <End Role="Intonation" Type="SongScreenerDBModel.Intonation" Multiplicity="1" />
+          <End Role="Song" Type="SongScreenerDBModel.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Intonation">
+              <PropertyRef Name="IntonationID" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="SongIntonationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Song_Language_1">
+          <End Role="Language" Type="SongScreenerDBModel.Language" Multiplicity="1" />
+          <End Role="Song" Type="SongScreenerDBModel.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="LanguageID" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="SongLanguageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Song_Rhythm_1">
+          <End Role="Rhythm" Type="SongScreenerDBModel.Rhythm" Multiplicity="1" />
+          <End Role="Song" Type="SongScreenerDBModel.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rhythm">
+              <PropertyRef Name="RhythmID" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="SongRhythmID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Song_Tone_1">
+          <End Role="Tone" Type="SongScreenerDBModel.Tone" Multiplicity="1" />
+          <End Role="Song" Type="SongScreenerDBModel.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tone">
+              <PropertyRef Name="ToneID" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="SongToneID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SongScreenerDBModelStoreContainer" CdmEntityContainer="SongScreenerDBEntities">
+          <EntitySetMapping Name="Artist">
+            <EntityTypeMapping TypeName="SongScreenerDBModel.Artist">
+              <MappingFragment StoreEntitySet="Artist">
+                <ScalarProperty Name="ArtistID" ColumnName="ArtistID" />
+                <ScalarProperty Name="ArtistName" ColumnName="ArtistName" />
+                <ScalarProperty Name="ArtistGender" ColumnName="ArtistGender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genre">
+            <EntityTypeMapping TypeName="SongScreenerDBModel.Genre">
+              <MappingFragment StoreEntitySet="Genre">
+                <ScalarProperty Name="GenreID" ColumnName="GenreID" />
+                <ScalarProperty Name="GenreName" ColumnName="GenreName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Intonation">
+            <EntityTypeMapping TypeName="SongScreenerDBModel.Intonation">
+              <MappingFragment StoreEntitySet="Intonation">
+                <ScalarProperty Name="IntonationID" ColumnName="IntonationID" />
+                <ScalarProperty Name="IntonationName" ColumnName="IntonationName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Language">
+            <EntityTypeMapping TypeName="SongScreenerDBModel.Language">
+              <MappingFragment StoreEntitySet="Language">
+                <ScalarProperty Name="LanguageID" ColumnName="LanguageID" />
+                <ScalarProperty Name="LanguageName" ColumnName="LanguageName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rhythm">
+            <EntityTypeMapping TypeName="SongScreenerDBModel.Rhythm">
+              <MappingFragment StoreEntitySet="Rhythm">
+                <ScalarProperty Name="RhythmID" ColumnName="RhythmID" />
+                <ScalarProperty Name="RhythmName" ColumnName="RhythmName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Song">
+            <EntityTypeMapping TypeName="SongScreenerDBModel.Song">
+              <MappingFragment StoreEntitySet="Song">
+                <ScalarProperty Name="SongID" ColumnName="SongID" />
+                <ScalarProperty Name="SongName" ColumnName="SongName" />
+                <ScalarProperty Name="SongArtistID" ColumnName="SongArtistID" />
+                <ScalarProperty Name="SongLanguageID" ColumnName="SongLanguageID" />
+                <ScalarProperty Name="SongGenreID" ColumnName="SongGenreID" />
+                <ScalarProperty Name="SongIntonationID" ColumnName="SongIntonationID" />
+                <ScalarProperty Name="SongToneID" ColumnName="SongToneID" />
+                <ScalarProperty Name="SongRhythmID" ColumnName="SongRhythmID" />
+                <ScalarProperty Name="SongPath" ColumnName="SongPath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tone">
+            <EntityTypeMapping TypeName="SongScreenerDBModel.Tone">
+              <MappingFragment StoreEntitySet="Tone">
+                <ScalarProperty Name="ToneID" ColumnName="ToneID" />
+                <ScalarProperty Name="ToneName" ColumnName="ToneName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

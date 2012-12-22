@@ -1,0 +1,20 @@
+﻿@model SongScreenerMvc.Models.Tone
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Tone</legend>
+
+    <div class="display-label">ToneName</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ToneName)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ToneID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

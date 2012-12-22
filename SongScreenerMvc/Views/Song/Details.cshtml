@@ -1,0 +1,55 @@
+﻿@model SongScreenerMvc.Models.Song
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Song</legend>
+
+    <div class="display-label">SongName</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SongName)
+    </div>
+
+    <div class="display-label">Artist</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Artist.ArtistName)
+    </div>
+
+    <div class="display-label">Language</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Language.LanguageName)
+    </div>
+
+    <div class="display-label">Genre</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Genre.GenreName)
+    </div>
+
+    <div class="display-label">Intonation</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Intonation.IntonationName)
+    </div>
+
+    <div class="display-label">Tone</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Tone.ToneName)
+    </div>
+
+    <div class="display-label">Rhythm</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Rhythm.RhythmName)
+    </div>
+
+    <div class="display-label">SongPath</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SongPath)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.SongID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
