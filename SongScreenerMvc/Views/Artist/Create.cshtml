@@ -1,10 +1,10 @@
-﻿@model SongScreenerMvc.Models.Artist
+﻿@model SongScreenerMvc.Models.Entity.Artist
 
 @{
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>创建歌手</h2>
 
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
@@ -12,10 +12,10 @@
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Artist</legend>
+        <legend>歌手</legend>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.ArtistName)
+            @Html.LabelFor(model => model.ArtistName,"歌手名")
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.ArtistName)
@@ -23,19 +23,27 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.ArtistGender)
+            @Html.LabelFor(model => model.ArtistGender, "性别")
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.ArtistGender)
+            @Html.DropDownList("ArtistGender", String.Empty)
             @Html.ValidationMessageFor(model => model.ArtistGender)
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ArtistHometown, "类别")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("ArtistHometown", String.Empty)
+            @Html.ValidationMessageFor(model => model.ArtistHometown)
+        </div>
+
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="创建" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("返回歌手列表", "Index")
 </div>

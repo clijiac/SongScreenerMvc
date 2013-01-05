@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cb98efb788d44ddabdc0f0eac910efa5" Name="Diagram1">
+        <EntityTypeShape EntityType="SongScreenerDBModel.Artist" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SongScreenerDBModel.Extension" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SongScreenerDBModel.Gender" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="SongScreenerDBModel.Genre" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SongScreenerDBModel.Hometown" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="SongScreenerDBModel.Language" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SongScreenerDBModel.Song" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="SongScreenerDBModel.fk_Artist_Gender_1" ManuallyRouted="false" />
+        <AssociationConnector Association="SongScreenerDBModel.fk_Artist_Hometown_1" ManuallyRouted="false" />
+        <AssociationConnector Association="SongScreenerDBModel.fk_Song_Artist_1" ManuallyRouted="false" />
+        <AssociationConnector Association="SongScreenerDBModel.fk_Song_Extension_1" ManuallyRouted="false" />
+        <AssociationConnector Association="SongScreenerDBModel.fk_Song_Genre_1" ManuallyRouted="false" />
+        <AssociationConnector Association="SongScreenerDBModel.fk_Song_Language_1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

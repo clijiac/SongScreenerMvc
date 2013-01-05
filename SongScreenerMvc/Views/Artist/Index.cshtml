@@ -1,21 +1,24 @@
-﻿@model IEnumerable<SongScreenerMvc.Models.Artist>
+﻿@model IEnumerable<SongScreenerMvc.Models.Entity.Artist>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>歌手列表</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("添加歌手", "Create")
 </p>
 <table>
     <tr>
         <th>
-            ArtistName
+            歌手名
         </th>
         <th>
-            ArtistGender
+            性别
+        </th>
+        <th>
+            类别
         </th>
         <th></th>
     </tr>
@@ -26,12 +29,15 @@
             @Html.DisplayFor(modelItem => item.ArtistName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ArtistGender)
+            @Html.DisplayFor(modelItem => item.Gender.GenderName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ArtistID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ArtistID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ArtistID })
+            @Html.DisplayFor(modelItem => item.Hometown.HometownName)
+        </td>
+        <td>
+            @Html.ActionLink("编辑", "Edit", new { id=item.ArtistID }) |
+            @*@Html.ActionLink("详情", "Details", new { id=item.ArtistID }) |*@
+            @Html.ActionLink("删除", "Delete", new { id=item.ArtistID })
         </td>
     </tr>
 }

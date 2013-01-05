@@ -1,0 +1,333 @@
+﻿@model IEnumerable<SongScreenerMvc.Models.VSong>
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<style type="text/css">
+	.toolbar-header1 {
+		width: auto;
+		/*border-bottom: 1px #5C87B2 solid;*/
+ }
+</style>
+<link href="../../Scripts/jPlayer/skin/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
+
+<script src="../../Scripts/jPlayer/js/jquery.jplayer.min.js"></script>
+<script src="../../Scripts/jPlayer/js/jplayer.playlist.min.js"></script>
+<script type="text/javascript">
+
+    var myPlaylist;
+
+
+
+    function doSearch() {
+        $('#SongList').datagrid('load', {
+            SongArtistID: $('#SongArtistID').combobox('getValue'),
+            SongGenreID: $('#SongGenreID').combobox('getValue'),
+            SongLanguageID: $('#SongLanguageID').combobox('getValue'),
+            SongName: $('#SongName').val(),
+            Intonation: function () {
+                if ($("#chkIntonation").attr("checked")) {
+                    return $("#Intonation").slider("getValue");
+                } else {
+                    return "";
+                }
+            },
+            Rhythm: function () {
+                if ($("#chkRhythm").attr("checked")) {
+                    return $("#Rhythm").slider("getValue");
+                } else {
+                    return "";
+                }
+            },
+            Tone: function () {
+                if ($("#chkTone").attr("checked")) {
+                    return $("#Tone").slider("getValue");
+                } else {
+                    return "";
+                }
+            },
+            isSearch: 1
+        });
+        $('#SongList').datagrid('unselectAll');
+    }
+
+    function ComboxHelper(selectName) {
+
+        $("#" + selectName).combobox({
+            width: 110,
+            filter: function (q, row) {
+                var opts = $(this).combobox('options');
+                return row[opts.textField].indexOf(q) != -1;
+            }
+        });
+        //$("#" + selectName).combobox("textbox").css("margin-right", "20px");
+        //$("#" + selectName).combobox("textbox").css("border", "0");;
+    }
+    function getSelection() {
+
+        var row = $('#SongList').datagrid('getSelected');
+        if (row) {
+            return row.SongID;
+        } else {
+            return null;
+        }
+    }
+    function getSelections() {
+        var ss = [];
+        var rows = $('#SongList').datagrid('getSelections');
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            ss.push('title:' + row.itemid + ":" + row.productid + ":" + row.attr1 + '</span>');
+        }
+        $.messager.alert('Info', ss.join('<br/>'));
+    }
+	
+
+
+    function AddIt() {
+        var ss = [];
+        var rows = $('#SongList').datagrid('getSelections');
+        if (rows.length>0) {
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                var path = row.FliePath;
+                path = path.toString().replace("~", "../..");
+                myPlaylist.add({
+                    title: row.SongName,
+                    artist: row.ArtistName,
+                    mp3: path	          	            
+                });	        
+            }
+	   
+
+
+        } else {
+            $.messager.alert('错误', "请选择一项记录");
+        }
+    }
+
+    function SliderHelper(textboxName) {
+
+        $("#" + textboxName).slider({
+            min: 1,
+            max: 10,
+            value: 2,
+            width: 80,
+            disabled: true,
+            height: 30,
+            //rule: [0, '|', 2.5, '|', 5, '|', 7.5, '|', 10],
+            onSlideEnd: function (value) {
+                $("#" + textboxName).val(value);
+            },
+            showTip: true
+
+        });
+    }
+
+    function disableSlider(check1, sliderName) {
+
+        if (check1.checked == true) {
+
+            $("#" + sliderName).slider("enable");
+        } else {
+            $("#" + sliderName).slider("disable");
+        }
+    }
+
+    function setSlidersAndCombox() {
+
+        SliderHelper("Intonation");
+        SliderHelper("Rhythm");
+        SliderHelper("Tone");
+        ComboxHelper("SongArtistID");
+        ComboxHelper("SongGenreID");
+        ComboxHelper("SongLanguageID");
+    }
+    $(function () {
+        $('#SongList').datagrid({
+            title: '歌曲列表',
+            iconCls: 'icon-save',
+            nowrap: false,
+            striped: false,
+            url: '@Url.Action("LoadSongList")',
+            remoteSort: false,
+            fitColumns: true,
+            fit: true,
+            idField: 'SongID',
+            frozenColumns: [[
+                { field: 'Id', checkbox: true }
+            ]],
+            rownumbers: true,
+            pagination: true,
+            selectOnCheck: true,
+            checkOnSelect: true,
+            pageSize: 10,
+            pageList: [10],
+            singleSelect: false	});
+        setSlidersAndCombox();
+	
+	
+
+    });
+
+
+    $(document).ready(function() {
+         myPlaylist = new jPlayerPlaylist({
+                jPlayer: "#jquery_jplayer_1",
+                cssSelectorAncestor: "#jp_container_1"
+            }, [
+
+            ], {
+                playlistOptions: {
+                    autoPlay: true,
+                    enableRemoveControls: true
+                },
+                swfPath: "../../Scripts/jPlayer/js/Jplayer.swf",
+                supplied: "mp3",
+                wmode: "window"
+            });
+    });
+</script>
+
+@*<h2>歌曲列表</h2>*@
+<div style="padding: 2px; height: 900px";>
+<div style="padding: 2px; height: 440px; width: 60%;float: left">
+	<table id="SongList" toolbar="#toolbar" style="height: auto; width: auto; vertical-align: central; padding: 30px 30px 15px 30px; font-size: 20px">
+		<thead>
+			<tr>
+				<th field="SongID" hidden="hidden">SongID</th>
+				<th field="SongName"   width="50%" >歌曲名</th>
+				<th field="ArtistName"  width="50%">歌手</th>
+				<th field="Intonation" hidden="hidden" width="5%" >音调</th>
+				<th field="Tone" hidden="hidden" width="5%">音色</th>
+				<th field="Rhythm" hidden="hidden" width="5%">节奏</th>
+				<th field="GenreName" hidden="hidden" width="5%">流派</th>
+				<th field="LanguageName" hidden="hidden" width="5%">语言</th>
+				<th field="FliePath" hidden="hidden" width="40%">歌曲路径</th>
+			</tr>
+		</thead>
+	</table>
+	<div id="toolbar" style="padding: 5px; height: auto">		
+		<div style="margin-bottom: 5px; ">
+			<table>
+				<tbody>
+					<tr >
+						<td class="toolbar-header1">												
+							<span>语言:</span>
+							@Html.DropDownList("SongLanguageID", "全部")
+						</td>
+						<td class="toolbar-header1">
+							<span>歌手:</span>
+							@Html.DropDownList("SongArtistID", "全部")
+						</td>
+						<td class="toolbar-header1">
+							<span>流派:</span>
+							@Html.DropDownList("SongGenreID", "全部")
+						</td>
+						<td class="toolbar-header1" style="float: right">
+							<span>歌曲名:</span>
+							<input id="SongName" type="text">
+						</td>
+					</tr>
+					<tr><td colspan="4"><div style="border-bottom: 1px #5C87B2 solid;"></div></td></tr>
+					<tr style="height: 10px"></tr>
+					<tr>
+						<td>
+							<table>
+								<tr>
+									<td>
+										<div><input type="checkbox" id="chkTone" onchange="disableSlider(this,'Tone')"/>音调:</div>
+									</td>
+									<td>
+										<div><input id="Tone" type="text" ></div>
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td>
+										<div><input type="checkbox" id="chkRhythm" onchange="disableSlider(this,'Rhythm')"/>节奏:</div>
+									</td>
+									<td>
+										<div><input id="Rhythm" type="text" ></div>
+									</td>
+								</tr>
+							</table>					      
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td>
+										<div><input type="checkbox" id="chkIntonation" onchange="disableSlider(this,'Intonation')"/>音色:</div>
+									</td>
+									<td>
+										<div><input id="Intonation" type="text" ></div>
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<a href="#" class="easyui-linkbutton"  iconcls="icon-search" onclick="doSearch()" data-options="width:49,align:'center'">搜索</a>
+							<a href="#" class="easyui-linkbutton" onclick="AddIt()"  data-options="width:110,align:'center'">添加到播放列表</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+</div>
+<div id="MusicBox" style="float: right">
+	<div id="jquery_jplayer_1" class="jp-jplayer" style="width: 0px; height: 0px;">		
+	</div>
+	<div id="jp_container_1" class="jp-audio">
+		<div class="jp-type-playlist">
+			<div class="jp-gui jp-interface" style="">
+				<ul class="jp-controls">
+					<li><a href="javascript:;" class="jp-previous" tabindex="1">previous</a></li>
+					<li><a href="javascript:;" class="jp-play" tabindex="1" style="">play</a></li>
+					<li><a href="javascript:;" class="jp-pause" tabindex="1" style="display: none;">pause</a></li>
+					<li><a href="javascript:;" class="jp-next" tabindex="1">next</a></li>
+					<li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
+					<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute" style="">mute</a></li>
+					<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute" style="display: none;">unmute</a></li>
+					<li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume" style="">max volume</a></li>
+				</ul>
+				<div class="jp-progress">
+					<div class="jp-seek-bar" style="width: 100%;">
+						<div class="jp-play-bar" style="width: 0%;"></div>
+					</div>
+				</div>
+				<div class="jp-volume-bar" style="">
+					<div class="jp-volume-bar-value" style="width: 80%;"></div>
+				</div>
+				<div class="jp-time-holder">
+					<div class="jp-current-time">00:00</div>
+					<div class="jp-duration">04:27</div>
+				</div>
+				<ul class="jp-toggles">
+					<li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle" style="">shuffle</a></li>
+					<li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off" style="display: none;">shuffle off</a></li>
+					<li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat" style="">repeat</a></li>
+					<li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off" style="display: none;">repeat off</a></li>
+				</ul>
+			</div>
+			<div class="jp-playlist">
+			    <ul style="display: block;">
+			        <li class="jp-playlist-current">
+			            <div><a href="javascript:;" class="jp-playlist-item-remove" style="display: none;">×</a><a href="javascript:;" class="jp-playlist-item jp-playlist-current" tabindex="1">Cro Magnon Man</a></div>
+			        </li>			       
+			    </ul>
+			</div>
+			<div class="jp-no-solution" style="display: none;">
+				<span>Update Required</span>
+				To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+			</div>
+		</div>
+	</div>
+
+</div>
+    </div>

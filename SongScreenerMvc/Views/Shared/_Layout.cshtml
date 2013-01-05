@@ -3,23 +3,44 @@
 <head>
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
+   
+    <link href="@Url.Content("~/Content/easyUIThemes/icon.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/easyUIThemes/default/easyui.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-    <script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/modernizr-2.5.3.js")" type="text/javascript"></script>
+
+    @*<link href="@Url.Content("~/Content/themes/base/jquery-ui.css")" rel="stylesheet" type="text/css" />*@
+    <script src="@Url.Content("~/Scripts/jquery-1.8.3.min.js")" type="text/javascript"></script>
+    @*<script src="@Url.Content("~/Scripts/jquery-ui-1.9.2.min.js")" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Scripts/modernizr-2.6.2.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JqueryEasyUI/jquery.easyui.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JqueryEasyUI/locale/easyui-lang-zh_CN.js")" type="text/javascript"></script>
 </head>
-<body>
+<body id="@ViewBag.BodyID">
     <div class="page">
         <header>
             <div id="title">
-                <h1>泡泡挑歌</h1>
+                <h1>挑歌</h1>
             </div>
             <div id="logindisplay">
                 @Html.Partial("_LogOnPartial")
             </div>
             <nav>
                 <ul id="menu">
-                    <li>@Html.ActionLink("主页", "Index", "Song")</li>
-                    <li>@Html.ActionLink("关于", "About", "Home")</li>
+                    @{
+                        if (Roles.IsUserInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("首页", "Index", "Home")</li>
+                            <li>@Html.ActionLink("歌曲管理", "Index", "VSong")</li>
+                            <li>@Html.ActionLink("歌手管理", "Index", "Artist")</li>
+                            <li>@Html.ActionLink("关于", "About", "Home")</li>                        
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("首页", "Index", "Home")</li>
+                            <li>@Html.ActionLink("关于", "About", "Home")</li>
+                        }
+                    }
+                   
                 </ul>
             </nav>
         </header>

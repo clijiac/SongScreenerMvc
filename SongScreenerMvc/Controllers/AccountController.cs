@@ -80,6 +80,7 @@ namespace SongScreenerMvc.Controllers
                 // 尝试注册用户
                 MembershipCreateStatus createStatus;
                 Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
+                Roles.AddUserToRole(model.UserName,"User");
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {

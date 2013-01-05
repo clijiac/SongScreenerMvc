@@ -7,7 +7,6 @@ using System.Web.Security;
 
 namespace SongScreenerMvc.Models
 {
-
     public class ChangePasswordModel
     {
         [Required]

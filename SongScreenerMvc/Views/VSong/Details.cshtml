@@ -1,0 +1,65 @@
+﻿@model SongScreenerMvc.Models.VSong
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>VSong</legend>
+
+    <div class="display-label">SongID</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SongID)
+    </div>
+
+    <div class="display-label">SongName</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SongName)
+    </div>
+
+    <div class="display-label">Intonation</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Intonation)
+    </div>
+
+    <div class="display-label">Tone</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Tone)
+    </div>
+
+    <div class="display-label">Rhythm</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Rhythm)
+    </div>
+
+    <div class="display-label">FliePath</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FliePath)
+    </div>
+
+    <div class="display-label">SongArtistID</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SongArtistID)
+    </div>
+
+    <div class="display-label">SongLanguageID</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SongLanguageID)
+    </div>
+
+    <div class="display-label">SongGenreID</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SongGenreID)
+    </div>
+
+    <div class="display-label">SongExtensionID</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SongExtensionID)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

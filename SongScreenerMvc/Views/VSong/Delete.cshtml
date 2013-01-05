@@ -1,0 +1,84 @@
+﻿@model SongScreenerMvc.Models.VSong
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+<h2>确定删除歌曲吗?</h2>
+<fieldset>
+    <legend>歌曲</legend>
+
+    @*<div class="display-label">SongID</div>*@
+    <div class="display-field">
+        @Html.HiddenFor(model => model.SongID)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">
+        @Html.LabelFor(model => model.SongName)
+    </div>
+    <div class="display-field" style="border-bottom: 1px #5C87B2 solid;width: 100px">
+        @Html.DisplayFor(model => model.SongName)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">
+        @Html.LabelFor(model => model.Intonation)
+    </div>
+    <div class="display-field" style="border-bottom: 1px #5C87B2 solid;width: 100px">
+        @Html.DisplayFor(model => model.Intonation)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">
+        @Html.LabelFor(model => model.Tone)
+    </div>
+    <div class="display-field" style="border-bottom: 1px #5C87B2 solid;width: 100px">
+        @Html.DisplayFor(model => model.Tone)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">
+        @Html.LabelFor(model => model.Rhythm)
+    </div>
+    <div class="display-field" style="border-bottom: 1px #5C87B2 solid;width: 100px">
+        @Html.DisplayFor(model => model.Rhythm)
+    </div>
+
+    
+
+    <div class="display-label" style="font-weight: bold">
+        @Html.LabelFor(model => model.Artist)
+    </div>
+    <div class="display-field" style="border-bottom: 1px #5C87B2 solid;width: 100px">
+        @Html.DisplayFor(model => model.Artist.ArtistName)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">
+        @Html.LabelFor(model => model.Language)
+    </div>
+    <div class="display-field" style="border-bottom: 1px #5C87B2 solid;width: 100px">
+        @Html.DisplayFor(model => model.Language.LanguageName)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">
+        @Html.LabelFor(model => model.Genre)
+    </div>
+    <div class="display-field" style="border-bottom: 1px #5C87B2 solid;width: 100px">
+        @Html.DisplayFor(model => model.Genre.GenreName)
+    </div>
+    <div class="display-label" style="font-weight: bold">
+        @Html.LabelFor(model => model.FliePath)
+    </div>
+    <div class="display-field"  style="border-bottom: 1px #5C87B2 solid;width: 300px">
+        @Html.DisplayFor(model => model.FliePath)
+    </div>
+    @*<div class="display-label">SongExtensionID</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SongExtensionID)
+    </div>*@
+</fieldset>
+@using (Html.BeginForm())
+{
+    <p>
+        <input type="submit" value="删除" />
+        |
+        @Html.ActionLink("返回歌曲列表", "Index")
+    </p>
+}

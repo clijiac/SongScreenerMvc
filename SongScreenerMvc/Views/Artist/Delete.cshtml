@@ -1,28 +1,33 @@
-﻿@model SongScreenerMvc.Models.Artist
+﻿@model SongScreenerMvc.Models.Entity.Artist
 
 @{
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>删除歌手</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>确定删除此歌手?</h3>
 <fieldset>
-    <legend>Artist</legend>
+    <legend>歌手</legend>
 
-    <div class="display-label">ArtistName</div>
+    <div class="display-label">歌手名</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.ArtistName)
     </div>
 
-    <div class="display-label">ArtistGender</div>
+    <div class="display-label">性别</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.ArtistGender)
+        @Html.DisplayFor(model => model.Gender.GenderName)
+    </div>
+
+    <div class="display-label">类别</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Hometown.HometownName)
     </div>
 </fieldset>
 @using (Html.BeginForm()) {
     <p>
         <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("返回歌手列表", "Index")
     </p>
 }

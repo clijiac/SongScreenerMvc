@@ -22,11 +22,12 @@ namespace SongScreenerMvc
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("favicon.ico");
 
             routes.MapRoute(
                 "Default", // 路由名称
                 "{controller}/{action}/{id}", // 带有参数的 URL
-                new { controller = "Song", action = "Index", id = UrlParameter.Optional } // 参数默认值
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional } // 参数默认值
             );
 
         }
@@ -36,7 +37,7 @@ namespace SongScreenerMvc
             AreaRegistration.RegisterAllAreas();
 
             // 默认情况下对 Entity Framework 使用 LocalDB
-            Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=(localdb)\v11.0; Integrated Security=True; MultipleActiveResultSets=True");
+            //Database.DefaultConnectionFactory = new SqlConnectionFactory(@"Data Source=(localdb)\v11.0; Integrated Security=True; MultipleActiveResultSets=True");
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);

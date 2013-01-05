@@ -190,7 +190,7 @@ textarea {
     min-height: 75px;
 }
 
-input[type="text"], 
+/*input[type="text"], 
 input[type="password"] {
     border: 1px solid #ccc;
     padding: 2px;
@@ -209,12 +209,12 @@ select {
 input[type="submit"] {
     font-size: 1.2em;
     padding: 5px;
-}
+}*/
 
 /* TABLE
 ----------------------------------------------------------*/
 
-table {
+/*table {
     border: solid 1px #e8eef4;
     border-collapse: collapse;
 }
@@ -229,7 +229,7 @@ table th {
     text-align: left;
     background-color: #e8eef4;
     border: solid 1px #e8eef4;
-}
+}*/
 
 /* MISC  
 ----------------------------------------------------------*/
@@ -312,7 +312,7 @@ div#title {
 }
 
 .text-box {
-    width: 30em;
+    width: 200px
 }
 
 .text-box.multi-line {

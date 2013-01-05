@@ -5,10 +5,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using SongScreenerMvc.Models;
+using SongScreenerMvc.Models.Entity;
 
 namespace SongScreenerMvc.Controllers
-{ 
+{
+    [Authorize(Roles = "Admin")]
     public class ArtistController : Controller
     {
         private SongScreenerDBEntities db = new SongScreenerDBEntities();
@@ -18,13 +19,14 @@ namespace SongScreenerMvc.Controllers
 
         public ViewResult Index()
         {
-            return View(db.Artist.ToList());
+            var artist = db.Artist.Include(a => a.Gender).Include(a => a.Hometown);
+            return View(artist.ToList());
         }
 
         //
         // GET: /Artist/Details/5
 
-        public ViewResult Details(string id)
+        public ViewResult Details(Guid id)
         {
             Artist artist = db.Artist.Find(id);
             return View(artist);
@@ -35,6 +37,8 @@ namespace SongScreenerMvc.Controllers
 
         public ActionResult Create()
         {
+            ViewBag.ArtistGender = new SelectList(db.Gender, "GenderID", "GenderName");
+            ViewBag.ArtistHometown = new SelectList(db.Hometown, "HometownID", "HometownName");
             return View();
         } 
 
@@ -46,20 +50,41 @@ namespace SongScreenerMvc.Controllers
         {
             if (ModelState.IsValid)
             {
+                artist.ArtistID = Guid.NewGuid();
                 db.Artist.Add(artist);
                 db.SaveChanges();
                 return RedirectToAction("Index");  
             }
 
+            ViewBag.ArtistGender = new SelectList(db.Gender, "GenderID", "GenderName", artist.ArtistGender);
+            ViewBag.ArtistHometown = new SelectList(db.Hometown, "HometownID", "HometownName", artist.ArtistHometown);
             return View(artist);
         }
-        
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult AjaxCreate(Artist artist)
+        {
+            if (ModelState.IsValid)
+            {
+                artist.ArtistID = Guid.NewGuid();
+                db.Artist.Add(artist);
+                db.SaveChanges();
+                return Json(new { Success = true, ArtistID = artist.ArtistID });
+            }
+
+            ViewBag.ArtistGender = new SelectList(db.Gender, "GenderID", "GenderName", artist.ArtistGender);
+            ViewBag.ArtistHometown = new SelectList(db.Hometown, "HometownID", "HometownName", artist.ArtistHometown);
+            return Json(new {Success = false, Message = "创建失败！"}, JsonRequestBehavior.AllowGet);
+        }
+
         //
         // GET: /Artist/Edit/5
  
-        public ActionResult Edit(string id)
+        public ActionResult Edit(Guid id)
         {
             Artist artist = db.Artist.Find(id);
+            ViewBag.ArtistGender = new SelectList(db.Gender, "GenderID", "GenderName", artist.ArtistGender);
+            ViewBag.ArtistHometown = new SelectList(db.Hometown, "HometownID", "HometownName", artist.ArtistHometown);
             return View(artist);
         }
 
@@ -75,13 +100,15 @@ namespace SongScreenerMvc.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ArtistGender = new SelectList(db.Gender, "GenderID", "GenderName", artist.ArtistGender);
+            ViewBag.ArtistHometown = new SelectList(db.Hometown, "HometownID", "HometownName", artist.ArtistHometown);
             return View(artist);
         }
 
         //
         // GET: /Artist/Delete/5
  
-        public ActionResult Delete(string id)
+        public ActionResult Delete(Guid id)
         {
             Artist artist = db.Artist.Find(id);
             return View(artist);
@@ -91,7 +118,7 @@ namespace SongScreenerMvc.Controllers
         // POST: /Artist/Delete/5
 
         [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(Guid id)
         {            
             Artist artist = db.Artist.Find(id);
             db.Artist.Remove(artist);

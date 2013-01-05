@@ -1,4 +1,4 @@
-﻿@model SongScreenerMvc.Models.Artist
+﻿@model SongScreenerMvc.Models.Entity.Artist
 
 @{
     ViewBag.Title = "Details";
@@ -14,9 +14,14 @@
         @Html.DisplayFor(model => model.ArtistName)
     </div>
 
-    <div class="display-label">ArtistGender</div>
+    <div class="display-label">Gender</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.ArtistGender)
+        @Html.DisplayFor(model => model.Gender.GenderName)
+    </div>
+
+    <div class="display-label">Hometown</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Hometown.HometownName)
     </div>
 </fieldset>
 <p>

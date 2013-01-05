@@ -1,0 +1,267 @@
+﻿@model SongScreenerMvc.Models.VSong
+@{
+    ViewBag.Title = "Edit";
+}
+<style>
+    .uploadify-button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+    }
+
+    .useBox {
+        border: 1px solid #ccc;
+        padding: 2px;
+        font-size: 1.2em;
+        color: #444;
+        width: 206px;
+    }
+
+    .uploadify:hover .uploadify-button {
+        background-color: transparent;
+    }
+</style>
+<h2>Edit</h2>
+
+<link href="@Url.Content("~/Content/uploadify.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.uploadify.min.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    function setSlidersAndCombox() {
+
+        SliderHelper("Intonation");
+        SliderHelper("Rhythm");
+        SliderHelper("Tone");
+        ComboxHelper("SongArtistID");
+        ComboxHelper("SongGenreID");
+        ComboxHelper("SongLanguageID");
+        $("#Intonation").slider('setValue', '@Model.Intonation');
+        $("#Rhythm").slider('setValue', '@Model.Rhythm');
+        $("#Tone").slider('setValue', '@Model.Tone');
+        $("#SongArtistID").combobox('setValue', '@Model.SongArtistID');
+        $("#SongGenreID").combobox('setValue', '@Model.SongGenreID');
+        $("#SongLanguageID").combobox('setValue', '@Model.SongLanguageID');
+    }
+
+    function SliderHelper(textboxName) {
+
+        $("#" + textboxName).slider({
+            min: 1,
+            max: 10,
+            value: 2,
+            width: $("#" + textboxName).width(),
+            //rule: [0, '|', 2.5, '|', 5, '|', 7.5, '|', 10],
+            onSlideEnd: function (value) {
+                $("#" + textboxName).val(value);
+            },
+            showTip: true
+
+        });
+    }
+
+    function ComboxHelper(selectName) {
+        $("#" + selectName).combobox({
+            width: $("#" + selectName).width(),
+            filter: function (q, row) {
+                var opts = $(this).combobox('options');
+                return row[opts.textField].indexOf(q) != -1;
+            }
+        });
+        //$("#" + selectName).combobox("textbox").css("padding", "0");
+        //$("#" + selectName).combobox("textbox").css("border", "0");;
+    }
+    
+
+    function chkCombobox(comboName) {
+        var data = $("#" + comboName).combobox('getData');
+        var sval = $("#" + comboName).combobox('getValue');
+        var flag = 0;
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].value == sval) {
+                flag = 1;
+            }
+        }
+        return flag;
+    }
+    
+
+    function realUpload() {
+        if (!$("form").valid()) {
+            alert("请输入歌曲名");
+            return;
+        }
+        if (chkCombobox("SongArtistID") < 1) {
+            alert("输入可用的歌手名");
+            return;
+        }
+        if (chkCombobox("SongGenreID") < 1) {
+            alert("输入可用的流派");
+            return;
+        }
+        if (chkCombobox("SongLanguageID") < 1) {
+            alert("输入可用的语言");
+            return;
+        }
+        $("#dialog-confirm").show();
+        $("#dialog-confirm").dialog({
+            resizable: false,
+            height: 220,
+            modal: true,
+            buttons: [{
+                text: "确定",
+                iconCls: 'icon-ok',
+                handler: function () {
+
+                    $("#dialog-confirm").dialog("close");
+                    $('#file_upload').uploadify('upload');
+                }
+            }, {
+                text: "取消",
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#dialog-confirm").dialog("close");
+                }
+            }
+            ]
+        });
+
+
+    }
+
+    function editIt() {
+        $("form").submit();
+    }
+
+    $(function () {
+        $('#file_upload').uploadify({
+            'buttonText': '选择文件',
+            'swf': '@Url.Content("~/Scripts/uploadify.swf")',
+            'uploader': '/VSong/Upload?guid=' + $("#SongID").val(),
+            multi: false,
+            'uploadLimit': 1,
+            'auto': false,
+            'fileTypeDesc': '音乐文件',
+            'fileTypeExts': '*.mp3; *.ogg; *.wma;*.wav;*.m4a',
+            'width': 80,
+            'onSelectError': function (file, errorCode, errorMsg) {
+                switch (errorCode) {
+                    case -100:
+                        this.queueData.errorMsg = "只能选择一个文件";
+                    default:
+                }
+            },
+            'onSelect': function (file) {
+                $("#uploadit").fadeIn();
+                $("#editIt").fadeOut();
+            },
+            'onCancel': function (file) {
+                $("#uploadit").fadeOut();
+            },
+            'onUploadSuccess': function (file, data, response) {
+                eval("data=" + data);
+                //alert(data.Guid);
+                $("#uploadit").fadeOut();
+                $("#SongID").val(data.Guid);
+                $("#SongExtensionID").val(data.FileExtension);
+                $("#FliePath").val(data.Path);
+                $("form").submit();
+
+                //$("form").submit(function (e) {
+                //    //alert("Submitted");
+                //});
+            }
+        });
+        setSlidersAndCombox();
+
+    });
+</script>
+<div id="dialog-confirm" title="是否上传?" style="display: none">
+    <p>
+        将会删除旧音乐文件上传音乐文件并修改歌曲记录,确定这样做吗?
+    </p>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>歌曲</legend>
+        @Html.HiddenFor(model => model.SongID)
+        @Html.HiddenFor(model => model.SongExtensionID)
+        @Html.HiddenFor(model => model.FliePath)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SongName)
+        </div>
+        <div class="editor-field" style="width: 210px">
+            @Html.EditorFor(model => model.SongName)
+            @Html.ValidationMessageFor(model => model.SongName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Language)
+        </div>
+        <div class="editor-field" style="width: 210px">
+            @Html.DropDownList("SongLanguageID", (IEnumerable<SelectListItem>)ViewBag.SongLanguageID, new { @class = "useBox" })
+            @Html.ValidationMessageFor(model => model.SongLanguageID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Artist)
+        </div>
+        <div class="editor-field" style="width: 210px">
+            @Html.DropDownList("SongArtistID", (IEnumerable<SelectListItem>)ViewBag.SongArtistID, new { @class = "useBox" })
+            @Html.ValidationMessageFor(model => model.SongArtistID)
+
+            @*<span id ="newArtist">找不到歌手?</span>*@
+            @*<input type="button" id="addArtist" class="uploadify-button" onclick="GetPop()" style="width: 80px; height: 20px;/*display: none*/" value="添加歌手" />*@
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Genre)
+        </div>
+        <div class="editor-field" style="width: 210px">
+            @Html.DropDownList("SongGenreID", (IEnumerable<SelectListItem>)ViewBag.SongGenreID, new { @class = "useBox" })
+            @Html.ValidationMessageFor(model => model.SongGenreID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Intonation)
+        </div>
+        <div class="editor-field" style="margin-top: 20px; margin-bottom: 20px; width: 210px">
+
+            @Html.EditorFor(model => model.Intonation)
+            @Html.ValidationMessageFor(model => model.Intonation)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Tone)
+        </div>
+        <div class="editor-field" style="margin-top: 20px; margin-bottom: 20px; width: 210px">
+            @Html.EditorFor(model => model.Tone)
+            @Html.ValidationMessageFor(model => model.Tone)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Rhythm)
+        </div>
+        <div class="editor-field" style="margin-top: 20px; margin-bottom: 20px; width: 210px">
+            @Html.EditorFor(model => model.Rhythm)
+            @Html.ValidationMessageFor(model => model.Rhythm)
+        </div>
+        <div class="editor-label">
+            <p>上传</p>
+        </div>
+        <div class="editor-field">
+            <input type="file" id="file_upload" name="file_upload" />
+            <input type="button" id="uploadit" class="uploadify-button" style="display: none; width: 90px; height: 30px" value="上传并修改歌曲" onclick="realUpload();" />
+
+        </div>
+        
+    </fieldset>
+}
+ <div><p>
+            <input type="button" id="editIt" class="uploadify-button" style=" width: 90px; height: 30px" value="修改" onclick="editIt();" />
+        </p></div>
+<div>
+    @Html.ActionLink("返回歌曲列表", "Index")
+</div>
